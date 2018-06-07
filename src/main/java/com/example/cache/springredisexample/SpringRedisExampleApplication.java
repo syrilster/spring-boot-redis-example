@@ -1,0 +1,29 @@
+package com.example.cache.springredisexample;
+
+import com.example.cache.springredisexample.model.Book;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
+
+@SpringBootApplication
+public class SpringRedisExampleApplication {
+
+    @Bean(name="jedisConnectionFactory")
+    JedisConnectionFactory jedisConnectionFactory() {
+        return new JedisConnectionFactory();
+    }
+
+    @Bean(name="redisTemplate")
+    RedisTemplate<String, Book> redisTemplate() {
+        RedisTemplate<String, Book> redisTemplate = new RedisTemplate<>();
+        redisTemplate.setConnectionFactory(jedisConnectionFactory());
+        return redisTemplate;
+    }
+
+    public static void main(String[] args) {
+
+        SpringApplication.run(SpringRedisExampleApplication.class, args);
+    }
+}
